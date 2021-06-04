@@ -96,6 +96,10 @@ rect rect_init(rect self, int width, int height, char* color, void (* show)(shap
 //此时这个“指向A的指针”指向的是子结构体里的A类结构体 这也就实现了多态
 //下面把“A类型结构体”放在了外面 其实也可以放在init方法里 但是那样的话就要加static关键字了
 //其实上面的部分里 那个结构体A承担了“虚表”的角色 里面的函数指针承担了"虚函数"的角色
+
+//其实如果看不懂上边的东西的话 也可以尝试另一种实现多态的方法 就是直接将父类的函数指针成员(这里就是上边的那个*show)取值为自己函数的地址
+//在这里就是在执行poly_init和square_init时 将poly_dtfun和square_dtfun作为 void(* show)(shape)参数的值传进去
+//然后直接 self.super_shape.show(self.super_shape); 即可
 struct polyclass
 {
     //继承shape
@@ -195,6 +199,10 @@ int main(void)
 
     // p = poly_init(p, 200, 100, "volite", shape_show, 10, 20, "10,10 20,20 30,30 10,10");
     // s = square_init(s, 140, 120, "pink", shape_show, 234, 155);
+
+    //实现多态的另一种方式
+    // p.super_shape.show(p.super_shape);
+    // s.super_shape.show(s.super_shape);
 
     // shape_poly_public_method(p.super_shape);
     // shape_poly_public_method(s.super_shape);
